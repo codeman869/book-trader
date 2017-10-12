@@ -1,0 +1,33 @@
+{
+  "name": "book-trader",
+  "version": "1.0.0",
+  "description": "Book trading web application",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "yarn start",
+    "client": "cd client && yarn start",
+    "precommit": "lint-staged",
+    "heroku-postbuild":
+      "cd client/ && yarn install && yarn build"  
+  },
+  "author": "Cody Deckard <cjdeckard@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.2",
+    "yarn": "^1.2.1"
+  },
+  "devDependencies": {
+    "concurrently": "^3.5.0",
+    "husky": "^0.14.3",
+    "lint-staged": "^4.2.3",
+    "prettier": "^1.7.4"
+  },
+  "lint-staged": {
+    "**/*.{js,jsx,json,css}": [
+      "prettier --single-quote --no-semi --write",
+      "git add"
+    ]
+  }
+}
