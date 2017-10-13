@@ -1,6 +1,8 @@
 const express = require('express')
 const path = require('path')
+const fs = require('fs')
 
+const db = require('./server/db')
 const setUpRoutes = require('./server/routes')
 
 const port =
@@ -10,13 +12,15 @@ const app = express()
 
 setUpRoutes(app)
 
-/*
-app.get('/api', (req, res) => {
-  console.log('API Request')
-  res.set('Content-Type', 'application/json')
-  res.json({ message: 'Successful' })
-})
-*/
+//bootstrap models
+const modelDir = path.join(__dirname, 'server', 'models')
+fs
+  .readdirSync(modelDir)
+  .filter(file => ~file.search(/^[^\.].*\.js$/))
+  .forEach(file => require(path.join(modelDir, file)))
+
+//create tables
+db.sync()
 
 app.listen(port, () => console.log(`Server running on port ${port}`))
 

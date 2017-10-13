@@ -1,35 +1,22 @@
-const { Pool, Client } = require('pg')
+const Sequelize = require('sequelize')
 
-//const client = new Client()
-let dbconfig
+let dbconfig = process.env.DATABASE_URL
 
-if (process.env.NODE_ENV === 'production') {
-  dbconfig = {
-    connectionString: process.env.DATABASE_URL
+const sequelize = new Sequelize(dbconfig)
+
+//test database config
+;(async () => {
+  try {
+    await sequelize.authenticate()
+
+    console.log('Database Connection established successfully')
+  } catch (err) {
+    console.warn('Unable to establish database connection: ', err)
   }
-} else {
-  dbconfig = {
-    user: process.env.DBUSER,
-    password: process.env.DBPASSWORD
-  }
-}
-
-const pool = new Pool(dbconfig)
-/*
-async function queryDB() {
-  const time = await pool.query('SELECT NOW()')
-
-  console.log(`The time is ${time}`)
-
- // await pool.end()
-}
-queryDB()
-*/
+})()
 
 /**
  * Expose
  */
 
-module.exports = {
-  query: (text, params) => pool.query(text, params)
-}
+module.exports = sequelize

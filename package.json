@@ -20,6 +20,8 @@
     "express": "^4.16.2",
     "express-promise-router": "^2.0.0",
     "pg": "^7.3.0",
+    "pg-hstore": "^2.3.2",
+    "sequelize": "^4.13.10",
     "yarn": "^1.2.1"
   },
   "devDependencies": {
