@@ -1,15 +1,26 @@
 const express = require('express')
 const path = require('path')
 const fs = require('fs')
+const passport = require('passport')
 
 const db = require('./server/db')
 const setUpRoutes = require('./server/routes')
+const setUpExpress = require('./server/config/express')
+const setUpPassport = require('./server/config/passport')
 
 const port =
   process.env.NODE_ENV != 'production' ? 3000 : process.env.PORT || 8080
 
 const app = express()
 
+// Set up passport
+setUpPassport(passport)
+app.use(passport.initialize())
+
+// Set up express
+setUpExpress(app)
+
+// Set up routes
 setUpRoutes(app)
 
 //bootstrap models

@@ -1,7 +1,19 @@
 const Sequelize = require('sequelize')
+const bCrypt = require('bcrypt-nodejs')
 
 const db = require('../db')
 const Book = require('./book')
+
+function createHash(password) {
+  console.log('creating hash')
+  let hash = bCrypt.hashSync(password, bCrypt.genSaltSync(10), null)
+  console.log(hash)
+  return hash
+}
+
+function validPassword(clearPassword, hashedPassword) {
+  return bCrypt.compareSync(clearPassword, hashedPassword)
+}
 
 const User = db.define('user', {
   username: {
@@ -23,9 +35,16 @@ const User = db.define('user', {
   },
   hashedPassword: {
     type: Sequelize.STRING,
-    allowNull: false
+    allowNull: false,
+    set(val) {
+      this.setDataValue('hashedPassword', createHash(val))
+    }
   }
 })
+
+User.prototype.validPassword = function(password) {
+  return validPassword(password, this.hashedPassword)
+}
 
 //Many to Many Relationship
 User.belongsToMany(Book, { as: 'books', through: 'book_owners' })
