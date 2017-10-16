@@ -39,6 +39,10 @@ const User = db.define('user', {
     set(val) {
       this.setDataValue('hashedPassword', createHash(val))
     }
+  },
+  token: {
+    type: Sequelize.STRING,
+    allowNull: true
   }
 })
 

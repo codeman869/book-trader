@@ -1,5 +1,6 @@
 const Router = require('express-promise-router')
 const passport = require('passport')
+const uuid = require('uuid/v4')
 
 const db = require('../db')
 const User = require('../models/user')
@@ -40,7 +41,7 @@ router.post('/new', async (req, res) => {
     return res.status(400).json(e)
   }
 
-  return res.status(201)
+  return res.sendStatus(201)
 })
 
 router.post('/login', async (req, res) => {
@@ -58,9 +59,18 @@ router.post('/login', async (req, res) => {
 
   if (!user.validPassword(password)) return badLogin(res)
 
+  const identifier = uuid()
+
+  try {
+    await user.update({ token: identifier })
+  } catch (e) {
+    res.status(500).json({ error: true, message: e })
+  }
+
   const token = sign({
     username: user.username,
-    email: user.email
+    email: user.email,
+    token: identifier
   })
 
   return res.status(200).json({ message: 'Success', token })
