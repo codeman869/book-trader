@@ -8,8 +8,7 @@ let options = {
 }
 
 const strategy = new JwtStrategy(options, async (jwt_payload, done) => {
-  console.log('Inside Strategy')
-  const { username } = jwt_payload
+  const { username, token } = jwt_payload
   let user
 
   try {
@@ -23,6 +22,8 @@ const strategy = new JwtStrategy(options, async (jwt_payload, done) => {
   }
 
   if (!user) return done(null, null)
+
+  if (user.token !== token) return done(null, null)
 
   return done(null, user)
 })
