@@ -12,7 +12,8 @@
     "server": "yarn start",
     "client": "cd client && yarn start",
     "precommit": "lint-staged",
-    "heroku-postbuild": "cd client/ && yarn install && yarn build"
+    "heroku-postbuild":
+      "sequelize db:migrate && cd client/ && yarn install && yarn build"
   },
   "author": "Cody Deckard <cjdeckard@gmail.com>",
   "license": "ISC",
@@ -28,6 +29,7 @@
     "pg": "^7.3.0",
     "pg-hstore": "^2.3.2",
     "sequelize": "^4.13.10",
+    "sequelize-cli": "^3.0.0",
     "uuid": "^3.1.0",
     "yarn": "^1.2.1"
   },
