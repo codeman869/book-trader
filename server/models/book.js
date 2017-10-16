@@ -13,7 +13,7 @@ const Book = db.define(
       }
     },
     isbn: {
-      type: Sequelize.INTEGER,
+      type: Sequelize.STRING,
       unique: true
     },
     authorFirstname: {
