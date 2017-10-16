@@ -1,4 +1,5 @@
 const Router = require('express-promise-router')
+const passport = require('passport')
 
 const db = require('../db')
 const User = require('../models/user')
@@ -64,5 +65,13 @@ router.post('/login', async (req, res) => {
 
   return res.status(200).json({ message: 'Success', token })
 })
+
+router.get(
+  '/protected',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    res.json({ message: 'Success' })
+  }
+)
 
 module.exports = router

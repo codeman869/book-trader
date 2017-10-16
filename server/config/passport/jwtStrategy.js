@@ -8,6 +8,7 @@ let options = {
 }
 
 const strategy = new JwtStrategy(options, async (jwt_payload, done) => {
+  console.log('Inside Strategy')
   const { username } = jwt_payload
   let user
 
@@ -21,9 +22,9 @@ const strategy = new JwtStrategy(options, async (jwt_payload, done) => {
     return done(e)
   }
 
-  if (!user) return null, null
+  if (!user) return done(null, null)
 
-  return null, user
+  return done(null, user)
 })
 
 module.exports = {
