@@ -6,13 +6,14 @@ const sequelize = new Sequelize(dbconfig)
 
 //test database config
 ;(async () => {
-  try {
-    await sequelize.authenticate()
-
-    console.log('Database Connection established successfully')
-  } catch (err) {
-    console.warn('Unable to establish database connection: ', err)
-  }
+	try {
+		await sequelize.authenticate()
+/* eslint-disable */
+		console.log('Database Connection established successfully')
+	} catch (err) {
+		console.warn('Unable to establish database connection: ', err)
+		/* eslint-enable */
+	}
 })()
 
 /**

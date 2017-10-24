@@ -5,49 +5,47 @@ const db = require('../db')
 const Book = require('./book')
 
 function createHash(password) {
-  console.log('creating hash')
-  let hash = bCrypt.hashSync(password, bCrypt.genSaltSync(10), null)
-  console.log(hash)
-  return hash
+	let hash = bCrypt.hashSync(password, bCrypt.genSaltSync(10), null)
+	return hash
 }
 
 function validPassword(clearPassword, hashedPassword) {
-  return bCrypt.compareSync(clearPassword, hashedPassword)
+	return bCrypt.compareSync(clearPassword, hashedPassword)
 }
 
 const User = db.define('user', {
-  username: {
-    type: Sequelize.STRING,
-    allowNull: false,
-    unique: true,
-    validate: {
-      notEmpty: true
-    }
-  },
-  email: {
-    type: Sequelize.STRING,
-    allowNull: false,
-    unique: true,
-    validate: {
-      isEmail: true,
-      notEmpty: true
-    }
-  },
-  hashedPassword: {
-    type: Sequelize.STRING,
-    allowNull: false,
-    set(val) {
-      this.setDataValue('hashedPassword', createHash(val))
-    }
-  },
-  token: {
-    type: Sequelize.STRING,
-    allowNull: true
-  }
+	username: {
+		type: Sequelize.STRING,
+		allowNull: false,
+		unique: true,
+		validate: {
+			notEmpty: true
+		}
+	},
+	email: {
+		type: Sequelize.STRING,
+		allowNull: false,
+		unique: true,
+		validate: {
+			isEmail: true,
+			notEmpty: true
+		}
+	},
+	hashedPassword: {
+		type: Sequelize.STRING,
+		allowNull: false,
+		set(val) {
+			this.setDataValue('hashedPassword', createHash(val))
+		}
+	},
+	token: {
+		type: Sequelize.STRING,
+		allowNull: true
+	}
 })
 
 User.prototype.validPassword = function(password) {
-  return validPassword(password, this.hashedPassword)
+	return validPassword(password, this.hashedPassword)
 }
 
 //Many to Many Relationship

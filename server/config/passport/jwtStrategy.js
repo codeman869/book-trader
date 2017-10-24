@@ -3,32 +3,32 @@ const ExtractJwt = require('passport-jwt').ExtractJwt
 const User = require('../../models/user')
 
 let options = {
-  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  secretOrKey: process.env.JWTKey || 'catsareawesome'
+	jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+	secretOrKey: process.env.JWTKey || 'catsareawesome'
 }
 
 const strategy = new JwtStrategy(options, async (jwt_payload, done) => {
-  const { username, token } = jwt_payload
-  let user
+	const { username, token } = jwt_payload
+	let user
 
-  try {
-    user = await User.findOne({
-      where: {
-        username
-      }
-    })
-  } catch (e) {
-    return done(e)
-  }
+	try {
+		user = await User.findOne({
+			where: {
+				username
+			}
+		})
+	} catch (e) {
+		return done(e)
+	}
 
-  if (!user) return done(null, null)
+	if (!user) return done(null, null)
 
-  if (user.token !== token) return done(null, null)
+	if (user.token !== token) return done(null, null)
 
-  return done(null, user)
+	return done(null, user)
 })
 
 module.exports = {
-  strategy,
-  options
+	strategy,
+	options
 }
