@@ -66,7 +66,7 @@ router.post('/login', async (req, res) => {
 	const identifier = uuid()
 
 	try {
-		await user.update({ token: identifier })
+		await user.update({ token: identifier, forgotPWToken: '' })
 	} catch (e) {
 		res.status(500).json({ error: true, message: e })
 	}
@@ -97,6 +97,28 @@ router.get('/verify/:id', async (req, res) => {
 	await user.save()
 
 	return res.status(200).json({ message: 'Account Confirmed', error: false })
+})
+
+router.post('/forgotPassword', async (req, res) => {
+	let user
+
+	let { username } = req.body
+
+	if (!username)
+		return res.status(400).json({ error: true, message: 'Invalid request' })
+
+	try {
+		user = await User.find({ where: { username } })
+	} catch (e) {
+		return res.status(500).json({ error: true, message: e })
+	}
+
+	if (!user)
+		return res.status(400).json({ error: true, message: 'Invalid request' })
+
+	user.forgotPassword()
+
+	return res.status(200).json({ message: 'success', error: false })
 })
 
 router.get(

@@ -3,8 +3,14 @@ const Email = require('email-templates')
 const transportConfig = require('./config/emailConfig')
 
 const from = 'BookTrader@codydeckard.com'
+//Construct server link
+const server =
+	process.env.NODE_ENV === 'production'
+		? 'https://buch-trader.herokuapp.com'
+		: 'https://books-codeman869.c9users.io'
 
 function sendAccountConfirmEmail(newUser) {
+	let link = `${server}/api/v1/users/verify/${newUser.verifyToken}`
 	const email = new Email({
 		message: {
 			from
@@ -19,7 +25,29 @@ function sendAccountConfirmEmail(newUser) {
 		},
 		locals: {
 			name: newUser.username,
-			link: newUser.link
+			link
+		}
+	})
+}
+
+function sendForgotPasswordEmail(user) {
+	const { token } = user
+	let link = `${server}/api/v1/users/forgotPassword/${token}`
+	const email = new Email({
+		message: {
+			from
+		},
+		transport: transportConfig
+	})
+
+	email.send({
+		template: 'forgotpassword',
+		message: {
+			to: user.email
+		},
+		locals: {
+			name: user.username,
+			link
 		}
 	})
 }
@@ -50,5 +78,6 @@ function sendTestEmail() {
 
 module.exports = {
 	sendTestEmail,
-	sendAccountConfirmEmail
+	sendAccountConfirmEmail,
+	sendForgotPasswordEmail
 }
