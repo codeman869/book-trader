@@ -2,10 +2,32 @@ const Email = require('email-templates')
 
 const transportConfig = require('./config/emailConfig')
 
-function sendEmail() {
+const from = 'BookTrader@codydeckard.com'
+
+function sendAccountConfirmEmail(newUser) {
 	const email = new Email({
 		message: {
-			from: 'BookTrader@codydeckard.com'
+			from
+		},
+		transport: transportConfig
+	})
+
+	email.send({
+		template: 'signup',
+		message: {
+			to: newUser.email
+		},
+		locals: {
+			name: newUser.username,
+			link: newUser.link
+		}
+	})
+}
+
+function sendTestEmail() {
+	const email = new Email({
+		message: {
+			from
 		},
 		transport: transportConfig
 	})
@@ -26,4 +48,7 @@ function sendEmail() {
 	/* eslint-enable */
 }
 
-module.exports = sendEmail
+module.exports = {
+	sendTestEmail,
+	sendAccountConfirmEmail
+}

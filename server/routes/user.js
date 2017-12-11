@@ -55,6 +55,12 @@ router.post('/login', async (req, res) => {
 
 	if (!user) return badLogin(res)
 
+	if (!user.verified)
+		return res.json({
+			message: 'You must verify account before logging in',
+			error: true
+		})
+
 	if (!user.validPassword(password)) return badLogin(res)
 
 	const identifier = uuid()
@@ -72,6 +78,25 @@ router.post('/login', async (req, res) => {
 	})
 
 	return res.status(200).json({ message: 'Success', token })
+})
+
+router.get('/verify/:id', async (req, res) => {
+	let user
+
+	const { id } = req.params
+
+	try {
+		user = await User.find({ where: { verifyToken: id } })
+	} catch (e) {
+		return res.status(500).json({ error: true, message: e })
+	}
+
+	user.verified = true
+	user.verifyToken = ''
+
+	await user.save()
+
+	return res.status(200).json({ message: 'Account Confirmed', error: false })
 })
 
 router.get(

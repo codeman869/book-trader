@@ -7,7 +7,6 @@ const db = require('./server/db')
 const setUpRoutes = require('./server/routes')
 const setUpExpress = require('./server/config/express')
 const setUpPassport = require('./server/config/passport')
-const sendEmail = require('./server/services/email')
 
 const port =
 	process.env.NODE_ENV != 'production' ? 3000 : process.env.PORT || 8080
@@ -36,7 +35,6 @@ db.sync()
 /* eslint-disable */
 app.listen(port, () => {
 	console.log(`Server running on port ${port}`)
-	sendEmail()
 })
 /* eslint-enable */
 

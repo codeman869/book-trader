@@ -26,7 +26,6 @@ module.exports = {
 	/* eslint-disable */
 	send: (mail, callback) => {
 		let parsed = parser(mail)
-		console.log(parsed)
 		client
 			.sendEmail(parsed)
 			.then(() => console.log('Email sent successfully!'))
