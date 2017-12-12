@@ -58,7 +58,7 @@ function sendForgotPasswordEmail(user) {
 		})
 	} else {
 		/* eslint-disable */
-		console.log(`Account confirm email sent to ${user.email}`)
+		console.log(`Password reset email sent to ${user.email}`)
 		/* eslint-enable */
 	}
 }
