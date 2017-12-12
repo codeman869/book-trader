@@ -17,17 +17,22 @@ function sendAccountConfirmEmail(newUser) {
 		},
 		transport: transportConfig
 	})
-
-	email.send({
-		template: 'signup',
-		message: {
-			to: newUser.email
-		},
-		locals: {
-			name: newUser.username,
-			link
-		}
-	})
+	if (process.env.NODE_ENV !== 'test') {
+		email.send({
+			template: 'signup',
+			message: {
+				to: newUser.email
+			},
+			locals: {
+				name: newUser.username,
+				link
+			}
+		})
+	} else {
+		/* eslint-disable */
+		console.log(`Account confirm email sent to ${newUser.email}`)
+		/* eslint-enable */
+	}
 }
 
 function sendForgotPasswordEmail(user) {
@@ -40,16 +45,22 @@ function sendForgotPasswordEmail(user) {
 		transport: transportConfig
 	})
 
-	email.send({
-		template: 'forgotpassword',
-		message: {
-			to: user.email
-		},
-		locals: {
-			name: user.username,
-			link
-		}
-	})
+	if (process.env.NODE_ENV !== 'test') {
+		email.send({
+			template: 'forgotpassword',
+			message: {
+				to: user.email
+			},
+			locals: {
+				name: user.username,
+				link
+			}
+		})
+	} else {
+		/* eslint-disable */
+		console.log(`Account confirm email sent to ${user.email}`)
+		/* eslint-enable */
+	}
 }
 
 function sendTestEmail() {

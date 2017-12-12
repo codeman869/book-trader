@@ -65,7 +65,7 @@ router.post('/login', async (req, res) => {
 	if (!user) return badLogin(res)
 
 	if (!user.verified)
-		return res.json({
+		return res.status(401).json({
 			message: 'You must verify account before logging in',
 			error: true
 		})

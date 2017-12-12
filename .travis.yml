@@ -4,4 +4,4 @@ env:
     - DATABASE_URL = 'postgres://postgres:postgres@localhost:5432/booktrader'
 services: postgresql
 before_script: 
-    - psql -c 'create database booktrader;' -U postgres
+    - psql -c 'create database booktrader_test;' -U postgres
