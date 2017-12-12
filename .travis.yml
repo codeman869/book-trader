@@ -1,0 +1,7 @@
+language: node_js
+node_js: 8
+env: 
+    - DATABASE_URL = 'postgres://postgres:postgres@localhost:5432/booktrader'
+services: postgresql
+before_script: 
+    - psql -c 'create database booktrader;' -U postgres
