@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Book trading web application",
   "engines": {
-    "node": "8.7.0"
+    "node": "8.9.4"
   },
   "main": "server.js",
   "scripts": {
