@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "description": "Book trading web application",
   "engines": {
-    "node": "8.7.0"
+    "node": "8.9.4"
   },
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "test": "NODE_ENV=test mocha --exit",
+    "dev": "NODE_ENV=development concurrently \"npm run server\" \"npm run client\"",
     "server": "yarn start",
     "client": "cd client && yarn start",
     "precommit": "lint-staged",
@@ -37,12 +37,15 @@
     "yarn": "^1.2.1"
   },
   "devDependencies": {
+    "chai": "^4.1.2",
+    "chai-http": "^3.0.0",
     "concurrently": "^3.5.0",
     "eslint": "^4.9.0",
     "eslint-plugin-prettier": "^2.3.1",
     "eslint-plugin-react": "^7.4.0",
     "husky": "^0.14.3",
     "lint-staged": "^4.2.3",
+    "mocha": "^4.0.1",
     "prettier": "^1.7.4"
   },
   "lint-staged": {
